@@ -42,10 +42,13 @@ jobs:
         make $ARGS ${{ github.event.inputs.defconfig }} 2>&1 | tee defconfig.log || true
         make -j$(nproc) $ARGS 2>&1 | tee compile.log || true
 
+    - name: Anykernel3
+      run: |
+        git clone https://github.com/AbuRider/Anykernel3 anykernel
         if [ -f out/arch/arm64/boot/Image.gz-dtb ]; then
-          ZIP_NAME="kernel${{ env.BUILD_TIME }}.zip"
-          zip -j "$ZIP_NAME" out/arch/arm64/boot/Image.gz-dtb 2>/dev/null || zip -j "$ZIP_NAME" out/arch/arm64/boot/Image.gz-dtb
-          echo "FINAL_ZIP=$ZIP_NAME" >> $GITHUB_ENV
+          cp out/arch/arm64/boot/Image.gz-dtb ./anykernel
+          cd anykernel ; zip -r9 Anykernel3.zip * -x .git README.md *placeholder ; cd ..
+          cp anykernel/Anykernel3.zip $GITHUB_ENV
         fi
 
     - name: Upload Artifacts
