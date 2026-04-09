@@ -44,11 +44,12 @@ jobs:
 
     - name: Anykernel3
       run: |
-        git clone https://github.com/AbuRider/Anykernel3 anykernel
+        git clone https://github.com/AbuRider/Anykernel3 Anykernel3
         if [ -f out/arch/arm64/boot/Image.gz-dtb ]; then
-          cp out/arch/arm64/boot/Image.gz-dtb ./anykernel
-          cd anykernel ; zip -r9 Anykernel3.zip * -x .git README.md *placeholder ; cd ..
-          cp anykernel/Anykernel3.zip $GITHUB_ENV
+          cp out/arch/arm64/boot/Image.gz-dtb Anykernel3/
+          cd Anykernel3
+          zip -r9 "../Anykernel3.zip" * -x '.git*' README.md '*placeholder'
+          cd ..
         fi
 
     - name: Upload Artifacts
