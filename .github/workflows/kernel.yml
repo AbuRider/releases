@@ -31,7 +31,7 @@ jobs:
         
         # Download AOSP Clang 
         mkdir -p clang
-        wget -qO- ${{ github.event.inputs.clang }} | tar -xzvf -C clang
+        wget -qO- ${{ github.event.inputs.clang }} | tar -xz -C clang
         export PATH=$PWD/clang/bin:$PATH
         
         curl -LSs "${{ github.event.inputs.kernelsu_setup }}" | bash -s ${{ github.event.inputs.kernelsu_branch }}
